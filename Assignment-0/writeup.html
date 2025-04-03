@@ -26,43 +26,43 @@
         </ul></div>
 
 <p><hr><p><a name='Fill'></a><h2>Fill</h2><p><hr><p>
-(Your description of your implementation of Fill goes here...)
-The Fill function is just a starting point in the code to show us how to index into the Push_Image
-Let's think of the image as a matrix of pixels, we iterate over the x and y axis (the row and column of the image)
-then we set the selected pixel (by indexating into the image with the x and y variables) to the color provided;
-
-This will pass through the entire image changing each pixel to that color making a panel of that color.
+The Fill function iterates over every pixel in the image,
+ treating the image as a 2D matrix of pixels. For each pixel, 
+ it sets the color to the specified value. 
+ This fills the entire image with a color. 
 
 <br>You can include as many results as you want, but please at least include the following results:<br> <a href='batch.html?Push_Image=flower.jpg&Fill=[0.142370997229,0.142509677694,0.764679664899,1]'>Push_Image=flower.jpg&Fill=[0.142370997229,0.142509677694,0.764679664899,1]</a>
 
-<br><img src='results/Brush.png'><p><hr><p><a name='Brush'></a><h2>Brush</h2><p><hr><p>
-(Your description of your implementation of Brush goes here...)
-The brush function uses the StringtoCoord to parse the verString parameter, wich contains the parameters of the function
-Then it goes through the image as before by indexating the x and y axis, it calculates the distance in of each color based on the diameter of the circle provided
-
-Basically it calculate the distance inside the radius of the circle that it should change the color of the pixel.
-
-
+<br><img src="results/Fill.png"><br><p><hr><p><a name='Brush'></a><h2>Brush</h2><p><hr><p>
+The Brush function uses the stringToCoords to parse the vertsString parameter, 
+which contains the coordinates of the centers. For each center, 
+it iterates over the image and calculates the squared Euclidean distance from the current pixel to the center. 
+If the distance is within the radius, the pixel's color is updated. 
+This creates a solid circular color effect. The algorithm has a nested loop structure, 
+iterating over all pixels for each center.
 
 <br>You can include as many results as you want, but please at least include the following results:<br> <a href='batch.html?Push_Image=flower.jpg&Brush=16;[0.0968858131488,0.0968858131488,0.705882352941,1];x222y165x303y160x266y234'>Push_Image=flower.jpg&Brush=16;[0.0968858131488,0.0968858131488,0.705882352941,1];x222y165x303y160x266y234</a>
 
-<br><img src='results/SoftBrush.png'><br> <a href='batch.html?Push_Image=town.jpg&Brush=10;[1,1,1,1];x475y83x304y100x135y187'>Push_Image=town.jpg&Brush=10;[1,1,1,1];x475y83x304y100x135y187</a>
+<br><img src='results/Brush.png'><br><br> <a href='batch.html?Push_Image=town.jpg&Brush=10;[1,1,1,1];x475y83x304y100x135y187'>Push_Image=town.jpg&Brush=10;[1,1,1,1];x475y83x304y100x135y187</a>
 
-<br><img src='results/placeholder.png'><p><hr><p><a name='Soft+Brush'></a><h2>Soft Brush</h2><p><hr><p>
-(Your description of your implementation of Soft Brush goes here...)
-
-This one is almost identical to the brush filter, since the process is the same, the only difference is that it calculates the opacity, aplicating the equation of opacity we the make a new pixel that has now a rgba values.
-Then we blend the pixel with the existing pixel.
+<br><p><hr><p><a name='Soft+Brush'></a><h2>Soft Brush</h2><p><hr><p>
+The Soft Brush filter is similar to the Brush filter but has opacity.
+ For each pixel in the radius, the opacity is calculated as a linear function of the distance from the center, 
+ decreasing from alpha_at_center to 0. The new pixel color is merged with the existing pixel color using the calculated opacity. 
+ This creates a gradient effect, where the brush goes out ot the edges and fades. The merging uses the formula: blendedColor = (1 - opacity) * existingColor + opacity * newColor.
 
 <br>You can include as many results as you want, but please at least include the following results:<br> <a href='batch.html?Push_Image=flower.jpg&Soft_Brush=91;[1,1,1,1];1;x269y193'>Push_Image=flower.jpg&Soft_Brush=91;[1,1,1,1];1;x269y193</a>
 
-<br><img src='results/Custom.png'><p><hr><p><a name='Art+Contest'></a><h2>Art Contest</h2><p><hr><p>
-my custom filter is an edge detection filter, is uses the sobel algorithm to insert the gx and gy matrixes in each pixel of the image
-then it computes if it should be to high or too low, and then it changes the pixel
-for more explanation in the implementation my repo on my github, explain it step by step with the actual code:
-<a href="https://github.com/Maky189/Image_Converter_Filter"
+<br><img src='results/SoftBrush.png'><br><p><hr><p><a name='Art+Contest'></a><h2>Art Contest</h2><p><hr><p>
+The custom filter implements an edge detection algorithm using the Sobel operator. 
+It applies two convolution matrices gx and gy to compute the gradient in the x and y directions for each pixel. 
+The magnitude of the gradient is calculated as sqrt(gx² + gy²) for each color channel, and the result is normalized to fit within the range [0, 1]. 
+This highlights edges in the image by detecting areas of high intensity change. 
+The algorithm is computationally intensive.
 
-<br>You can include as many results as you want, but please at least include the following results:    </div>
+For more details on the implementation, refer to my GitHub repository, which explains the algorithm step by step: <a href="https://github.com/Maky189/Image_Converter_Filter">GitHub Repository</a>.
+
+<br>You can include as many results as you want, but please at least include the following results:<br><img src='results/Custom.png'>    </div>
 </body>
 </html>
 
