@@ -8,6 +8,7 @@ The assignment involves implementing several filters in the `filters.js` file. T
 
 This README provides a detailed explanation of each filter, including the equations and concepts used, to help future students understand and implement the filters.
 
+---
 
 ## Filters
 
@@ -25,7 +26,7 @@ The Fill filter replaces every pixel in the image with a specified color. This c
 - Use nested loops to traverse the image.
 - The color is typically represented as an array `[R, G, B, A]`, where each component is in the range `[0, 1]`.
 
-
+---
 
 ### 2. Brush Filter
 
@@ -37,23 +38,23 @@ The Brush filter draws solid circles of a specified radius and color at given ce
 - For each center, iterate over the image pixels.
 - Calculate the squared Euclidean distance between the current pixel and the center:
 
-  \[
-  \text{distance}^2 = (x - x_{\text{center}})^2 + (y - y_{\text{center}})^2
-  \]
+  ```
+  distance² = (x - x_center)² + (y - y_center)²
+  ```
 
 - If the distance is less than or equal to the square of the radius, update the pixel color.
 
 **Hints**:  
 - Use the equation for a circle:
 
-  \[
-  (x - h)^2 + (y - k)^2 \leq r^2
-  \]
+  ```
+  (x - h)² + (y - k)² ≤ r²
+  ```
 
-  where \((h, k)\) is the center and \(r\) is the radius.
+  where `(h, k)` is the center and `r` is the radius.
 - Avoid calculating the square root for efficiency; compare squared distances instead.
 
-
+---
 
 ### 3. Soft Brush Filter
 
@@ -66,21 +67,21 @@ The Soft Brush filter is similar to the Brush filter but includes opacity blendi
 - Calculate the distance between the current pixel and the center.
 - Compute the opacity as a linear function of the distance:
 
-  \[
-  \text{opacity} = \alpha_{\text{center}} \times \left(1 - \frac{\text{distance}}{\text{radius}}\right)
-  \]
+  ```
+  opacity = alpha_at_center * (1 - (distance / radius))
+  ```
 
 - Blend the new color with the existing pixel color using the formula:
 
-  \[
-  \text{blendedColor} = (1 - \text{opacity}) \times \text{existingColor} + \text{opacity} \times \text{newColor}
-  \]
+  ```
+  blendedColor = (1 - opacity) * existingColor + opacity * newColor
+  ```
 
 **Hints**:  
 - Ensure the opacity is clamped to the range `[0, 1]`.
 - Use the blending formula to combine the colors.
 
-
+---
 
 ### 4. Custom Filter (Edge Detection)
 
@@ -88,28 +89,30 @@ The Soft Brush filter is similar to the Brush filter but includes opacity blendi
 The custom filter implements edge detection using the Sobel operator. This highlights areas of high intensity change in the image, such as edges.
 
 **Algorithm**:  
-- Define two convolution matrices (\(g_x\) and \(g_y\)) for detecting horizontal and vertical gradients:
+- Define two convolution matrices (`gx` and `gy`) for detecting horizontal and vertical gradients:
 
-  \[
-  g_x = \begin{bmatrix} -1 & 0 & 1 \\ -2 & 0 & 2 \\ -1 & 0 & 1 \end{bmatrix}, \quad
-  g_y = \begin{bmatrix} -1 & -2 & -1 \\ 0 & 0 & 0 \\ 1 & 2 & 1 \end{bmatrix}
-  \]
+  ```
+  gx = [[-1, 0, 1],
+        [-2, 0, 2],
+        [-1, 0, 1]]
+
+  gy = [[-1, -2, -1],
+        [ 0,  0,  0],
+        [ 1,  2,  1]]
+  ```
 
 - For each pixel, apply the convolution matrices to compute the gradients in the x and y directions:
 
-  \[
-  G_x = \sum_{i=-1}^{1} \sum_{j=-1}^{1} g_x[i+1][j+1] \cdot \text{pixel}(x+i, y+j)
-  \]
-
-  \[
-  G_y = \sum_{i=-1}^{1} \sum_{j=-1}^{1} g_y[i+1][j+1] \cdot \text{pixel}(x+i, y+j)
-  \]
+  ```
+  Gx = Σ (gx[i][j] * pixel(x+i, y+j))
+  Gy = Σ (gy[i][j] * pixel(x+i, y+j))
+  ```
 
 - Compute the gradient magnitude:
 
-  \[
-  G = \sqrt{G_x^2 + G_y^2}
-  \]
+  ```
+  G = sqrt(Gx² + Gy²)
+  ```
 
 - Normalize the gradient magnitude to the range `[0, 1]`.
 
@@ -118,7 +121,8 @@ The custom filter implements edge detection using the Sobel operator. This highl
 - Handle edge cases where the convolution window extends beyond the image boundaries.
 - Normalize the gradient magnitude to avoid values exceeding the valid range.
 
+---
 
-### Disclaimer
+## Disclaimer
 
 This project is for educational purposes only. Please take your time understanding the assignment and working on it.
